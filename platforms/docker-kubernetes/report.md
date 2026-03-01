@@ -51,7 +51,7 @@ Also, I added a package for type annotations because all the red text was highly
 
 ### Forked repository
 
-`https://github.com/your-username/academic-calendar-api`
+`https://github.com/rfquin/academic-calendar-api`
 
 ## Kubernetes
 
