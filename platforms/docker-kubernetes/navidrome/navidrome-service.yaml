@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.38.0 (HEAD)
+  labels:
+    io.kompose.service: navidrome
+  name: navidrome
+spec:
+  ports:
+    - name: "4533"
+      port: 4533
+      targetPort: 4533
+  selector:
+    io.kompose.service: navidrome

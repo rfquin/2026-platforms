@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.38.0 (HEAD)
+  labels:
+    io.kompose.service: navidrome
+  name: navidrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: navidrome
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file docker-compose.yml convert
+        kompose.version: 1.38.0 (HEAD)
+      labels:
+        io.kompose.service: navidrome
+    spec:
+      containers:
+        - env:
+            - name: ND_LOGLEVEL
+              value: debug
+          image: deluan/navidrome:latest
+          name: navidrome
+          ports:
+            - containerPort: 4533
+              protocol: TCP
+          securityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /data
+              name: navidrome-claim0
+            - mountPath: /music
+              name: navidrome-claim1
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: navidrome-claim0
+          persistentVolumeClaim:
+            claimName: navidrome-claim0
+        - name: navidrome-claim1
+          persistentVolumeClaim:
+            claimName: navidrome-claim1
+            readOnly: true
